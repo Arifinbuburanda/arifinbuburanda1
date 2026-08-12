@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPterindo — Platform Manajemen Budidaya Pertanian</title>
+<meta name="description" content="UPterindo adalah platform manajemen budidaya pertanian oleh Terindo Group — perencanaan tanam, tugas lapangan, scouting hama, treatment, inventory gudang, laporan & analitik dalam satu aplikasi.">
+<link rel="icon" type="image/png" href="assets/terindo-icon-transparent.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  :root{
+    --green-50:#f0fdf4; --green-100:#dcfce7; --green-200:#bbf7d0; --green-600:#16a34a; --green-700:#15803d;
+    --dark:#0f2419; --dark2:#173323; --gray-600:#4b5b52; --gray-500:#6b7280;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter', ui-sans-serif, system-ui, sans-serif; color:var(--dark); background:#fff; line-height:1.5;}
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+  .btn{display:inline-flex; align-items:center; gap:8px; font-weight:800; font-size:14.5px; padding:13px 26px; border-radius:999px; cursor:pointer; border:none;}
+  .btn-primary{background:var(--green-600); color:white; box-shadow:0 14px 26px -10px rgba(22,163,74,.45);}
+  .btn-primary:hover{background:var(--green-700);}
+  .btn-ghost{background:transparent; color:var(--dark); border:1.5px solid #d8ddda;}
+  .btn-ghost:hover{border-color:var(--green-600); color:var(--green-700);}
+  .btn-dark{background:var(--dark); color:var(--green-100);}
+
+  /* ===== Header ===== */
+  header{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.9); backdrop-filter:blur(10px); border-bottom:1px solid #eef1ee;}
+  header .wrap{display:flex; align-items:center; justify-content:space-between; height:74px;}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px;}
+  .brand img{width:34px; height:34px; object-fit:contain;}
+  nav.mainnav{display:flex; align-items:center; gap:28px; font-weight:700; font-size:13.5px; color:var(--gray-600);}
+  nav.mainnav a:hover{color:var(--green-700);}
+  .header-cta{display:flex; align-items:center; gap:10px;}
+
+  /* ===== Hero ===== */
+  .hero{position:relative; overflow:hidden; padding:88px 0 70px;
+    background:
+      radial-gradient(circle at 88% 6%, #eafaf0 0%, transparent 45%),
+      radial-gradient(circle at 8% 96%, #eef1ee 0%, transparent 40%),
+      linear-gradient(160deg, #ffffff 0%, #f4f8f5 55%, #eef2ef 100%);}
+  .hero .dotgrid{position:absolute; inset:0; background-image:radial-gradient(#cfe3d6 2px, transparent 2px); background-size:28px 28px;
+    -webkit-mask-image:radial-gradient(circle at 25% 15%, black, transparent 55%); mask-image:radial-gradient(circle at 25% 15%, black, transparent 55%); opacity:.7;}
+  .hero .wrap{position:relative; z-index:2; display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center;}
+  .kicker{display:inline-block; background:var(--green-100); color:var(--green-700); font-weight:800; font-size:12.5px; letter-spacing:.04em; padding:8px 16px; border-radius:999px; margin-bottom:22px;}
+  .hero h1{font-size:44px; font-weight:900; line-height:1.08; letter-spacing:-.02em; margin-bottom:18px;}
+  .hero h1 .accent{color:var(--green-600);}
+  .hero p.lead{font-size:16.5px; color:var(--gray-600); font-weight:500; max-width:520px; margin-bottom:30px;}
+  .hero .cta-row{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:34px;}
+  .hero .stats{display:flex; gap:26px; flex-wrap:wrap;}
+  .hero .stat b{display:block; font-size:22px; font-weight:900; color:var(--dark);}
+  .hero .stat span{font-size:11.5px; color:var(--gray-500); font-weight:700; text-transform:uppercase; letter-spacing:.02em;}
+  .hero-visual{position:relative;}
+  .shot-frame{border-radius:20px; overflow:hidden; box-shadow:0 40px 70px -25px rgba(15,36,25,.35); border:8px solid var(--dark); background:#fff;}
+  .shot-frame img{width:100%; height:auto; display:block;}
+  .float-card{position:absolute; background:white; border-radius:16px; box-shadow:0 20px 40px -16px rgba(15,36,25,.3); padding:13px 16px; display:flex; align-items:center; gap:12px; border:1px solid #eef1ee; z-index:3;}
+  .float-card .ic{width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px; color:white; flex-shrink:0;}
+  .float-1{top:-22px; left:-28px;}
+  .float-2{bottom:-20px; right:-24px;}
+
+  /* ===== Section generic ===== */
+  section{padding:76px 0;}
+  .section-head{text-align:center; max-width:640px; margin:0 auto 48px;}
+  .section-head .kicker{margin-bottom:16px;}
+  .section-head h2{font-size:32px; font-weight:900; letter-spacing:-.02em; margin-bottom:14px;}
+  .section-head p{font-size:15.5px; color:var(--gray-600); font-weight:500;}
+
+  /* ===== Feature grid ===== */
+  .feat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .feat-card{background:#fff; border:1px solid #eef1ee; border-radius:18px; padding:26px; box-shadow:0 18px 36px -24px rgba(15,36,25,.18);}
+  .feat-card .ic{width:46px; height:46px; border-radius:12px; background:var(--green-100); color:var(--green-700); display:flex; align-items:center; justify-content:center; font-size:21px; font-weight:800; margin-bottom:16px;}
+  .feat-card h3{font-size:15.5px; font-weight:800; margin-bottom:8px;}
+  .feat-card p{font-size:13.2px; color:var(--gray-600); line-height:1.6;}
+
+  /* ===== Roles ===== */
+  .roles-sec{background:var(--dark); color:white;}
+  .roles-sec .section-head h2, .roles-sec .section-head p{color:white;}
+  .roles-sec .section-head p{color:rgba(255,255,255,.6);}
+  .roles-sec .kicker{background:rgba(255,255,255,.1); color:var(--green-200);}
+  .roles-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .role-card{background:var(--dark2); border-radius:16px; padding:24px 20px; border:1px solid rgba(255,255,255,.06);}
+  .role-card .tag{display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--green-200); background:rgba(74,222,128,.12); padding:5px 12px; border-radius:999px; margin-bottom:14px;}
+  .role-card h3{font-size:16px; font-weight:800; margin-bottom:10px;}
+  .role-card ul{list-style:none; font-size:12.8px; color:rgba(255,255,255,.65); line-height:1.85;}
+  .role-card ul li:before{content:"› "; color:var(--green-600); font-weight:800;}
+
+  /* ===== Showcase / screenshots ===== */
+  .showcase-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .showcase-item{border-radius:16px; overflow:hidden; border:1px solid #eef1ee; box-shadow:0 18px 36px -24px rgba(15,36,25,.2); background:#fff;}
+  .showcase-item .imgwrap{height:210px; overflow:hidden; background:#f4f8f5; position:relative;}
+  .showcase-item .imgwrap img{width:100%; height:100%; object-fit:cover; object-position:top;}
+  .showcase-item .cap{padding:14px 16px;}
+  .showcase-item .cap b{font-size:13.5px; display:block; margin-bottom:2px;}
+  .showcase-item .cap span{font-size:11.5px; color:var(--gray-500);}
+
+  /* ===== Modules strip ===== */
+  .modules-strip{display:flex; flex-wrap:wrap; gap:10px; justify-content:center;}
+  .mod-chip{background:var(--green-50); border:1px solid var(--green-100); color:var(--green-700); font-weight:700; font-size:12.5px; padding:9px 16px; border-radius:999px;}
+
+  /* ===== CTA band ===== */
+  .cta-band{background:linear-gradient(135deg, var(--green-600), var(--green-700)); color:white; border-radius:26px; padding:52px 40px; text-align:center; margin:0 24px;}
+  .cta-band h2{font-size:28px; font-weight:900; margin-bottom:12px;}
+  .cta-band p{font-size:14.5px; opacity:.9; margin-bottom:26px; max-width:520px; margin-left:auto; margin-right:auto;}
+  .cta-band .btn-primary{background:white; color:var(--green-700); box-shadow:none;}
+  .cta-band .btn-primary:hover{background:var(--green-50);}
+  .cta-band .btn-ghost{border-color:rgba(255,255,255,.4); color:white;}
+  .cta-band .btn-ghost:hover{border-color:white;}
+
+  /* ===== Footer ===== */
+  footer{padding:48px 0 32px; border-top:1px solid #eef1ee;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  footer .fbrand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:15px;}
+  footer .fbrand img{width:26px; height:26px; object-fit:contain;}
+  footer .fmeta{font-size:12px; color:var(--gray-500);}
+  footer .flinks{display:flex; gap:18px; font-size:12.5px; font-weight:700; color:var(--gray-600);}
+
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr; gap:40px;}
+    .hero h1{font-size:34px;}
+    .feat-grid{grid-template-columns:repeat(2,1fr);}
+    .roles-grid{grid-template-columns:repeat(2,1fr);}
+    .showcase-grid{grid-template-columns:repeat(2,1fr);}
+    nav.mainnav{display:none;}
+    .float-card{display:none;}
+  }
+  @media (max-width:560px){
+    .feat-grid{grid-template-columns:1fr;}
+    .roles-grid{grid-template-columns:1fr;}
+    .showcase-grid{grid-template-columns:1fr;}
+    .hero{padding:56px 0 44px;}
+    .cta-band{margin:0 16px; padding:38px 22px;}
+    header .wrap{height:64px;}
+    .header-cta .btn-ghost{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand"><img src="assets/terindo-icon-transparent.png" alt="Terindo"> UPterindo</div>
+    <nav class="mainnav">
+      <a href="#fitur">Fitur</a>
+      <a href="#peran">Peran Pengguna</a>
+      <a href="#tampilan">Tampilan</a>
+      <a href="#modul">Modul</a>
+    </nav>
+    <div class="header-cta">
+      <a href="https://github.com/" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+      <a href="app.html" class="btn btn-primary">Buka Aplikasi →</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="dotgrid"></div>
+  <div class="wrap">
+    <div>
+      <span class="kicker">PLATFORM MANAJEMEN BUDIDAYA</span>
+      <h1>Kelola Kebun Anda,<br><span class="accent">Dari Mana Saja</span></h1>
+      <p class="lead">Dari perencanaan tanam, tugas lapangan, scouting hama, treatment, inventory gudang, hingga laporan & keberlanjutan — satu platform untuk seluruh tim kebun Anda.</p>
+      <div class="cta-row">
+        <a href="app.html" class="btn btn-primary">Buka Aplikasi →</a>
+        <a href="#tampilan" class="btn btn-ghost">Lihat Tampilan</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>17</b><span>Modul Fungsional</span></div>
+        <div class="stat"><b>4</b><span>Peran Pengguna</span></div>
+        <div class="stat"><b>9+</b><span>Produk & Bahan Aktif</span></div>
+        <div class="stat"><b>AI</b><span>Analisis Foto Tanaman</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="shot-frame"><img src="assets/screenshots/shot-login.png" alt="Tampilan login UPterindo"></div>
+      <div class="float-card float-1">
+        <div class="ic" style="background:linear-gradient(135deg,#16a34a,#15803d);">✓</div>
+        <div><b style="font-size:13px;">Evidence-Based</b><br><span style="font-size:11px;color:var(--gray-500);">Foto, lokasi & bahan tercatat</span></div>
+      </div>
+      <div class="float-card float-2">
+        <div class="ic" style="background:linear-gradient(135deg,#4b5563,#6b7280);">AI</div>
+        <div><b style="font-size:13px;">Analisis Foto</b><br><span style="font-size:11px;color:var(--gray-500);">Human-in-the-loop</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fitur">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">FITUR UTAMA</span>
+      <h2>Semua yang tim kebun butuhkan</h2>
+      <p>Dibangun berdasarkan blueprint operasional budidaya lengkap — dari lapangan hingga gudang, dari rencana hingga laporan.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="ic">📋</div><h3>Rencana Kerja Harian & Bulanan</h3><p>Susun dan pantau rencana kerja regu per hari maupun target bulanan lengkap dengan progress dan PIC.</p></div>
+      <div class="feat-card"><div class="ic">🧾</div><h3>Laporan & Unduh PDF</h3><p>Laporan harian dan bulanan dibuat otomatis dari data operasional, siap diunduh sebagai PDF resmi berkop UPterindo.</p></div>
+      <div class="feat-card"><div class="ic">🌱</div><h3>Laporan Hijau (Sustainability)</h3><p>Pantau efisiensi air, penurunan pestisida kimia, porsi pupuk organik, limbah, dan estimasi jejak karbon.</p></div>
+      <div class="feat-card"><div class="ic">🧪</div><h3>Database Bahan Aktif & Produk</h3><p>Katalog lengkap bahan aktif (IRAC/FRAC, PHI, REI, kelas bahaya) dan produk budidaya lintas kategori.</p></div>
+      <div class="feat-card"><div class="ic">⚠️</div><h3>Indeks Kompatibilitas Campuran</h3><p>Matriks kompatibilitas pencampuran produk agar aplikasi lapangan tidak salah campur dan tetap aman.</p></div>
+      <div class="feat-card"><div class="ic">📷</div><h3>Analisis Foto Tanaman (AI)</h3><p>Unggah foto kondisi tanaman untuk dianalisis AI — mendukung keputusan agronomis lebih cepat dan akurat.</p></div>
+      <div class="feat-card"><div class="ic">📖</div><h3>SOP Library Bertahap</h3><p>SOP budidaya per komoditas dengan checklist langkah demi langkah dari persiapan lahan hingga panen.</p></div>
+      <div class="feat-card"><div class="ic">🏭</div><h3>Manajemen Gudang</h3><p>Stok, penerimaan, pengeluaran, transfer antar gudang, batch/kedaluwarsa, hingga purchase request.</p></div>
+      <div class="feat-card"><div class="ic">📊</div><h3>Analitik & Produktivitas</h3><p>Pantau produktivitas regu, kanban tugas, peta lahan, dan approval kerja dalam satu dashboard.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="roles-sec" id="peran">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">PERAN PENGGUNA</span>
+      <h2>Satu aplikasi, empat sudut pandang</h2>
+      <p>Setiap peran melihat tampilan yang relevan dengan tugasnya — tanpa informasi yang membingungkan.</p>
+    </div>
+    <div class="roles-grid">
+      <div class="role-card">
+        <span class="tag">Mobile-first</span>
+        <h3>Pekerja Lapangan</h3>
+        <ul><li>Tugas harian & checklist</li><li>Lapor masalah + foto</li><li>Scan QR plot/gudang</li><li>Riwayat & sinkronisasi offline</li></ul>
+      </div>
+      <div class="role-card">
+        <span class="tag">Command center</span>
+        <h3>Supervisor / Mandor</h3>
+        <ul><li>Kalender & papan tugas</li><li>Rencana kerja harian/bulanan</li><li>Laporan harian/bulanan + PDF</li><li>Laporan hijau & kehadiran tim</li></ul>
+      </div>
+      <div class="role-card">
+        <span class="tag">Teknis</span>
+        <h3>Agronomis</h3>
+        <ul><li>Crop cycle & scouting</li><li>SOP library bertahap</li><li>Treatment planner</li><li>Database produk & kompatibilitas</li></ul>
+      </div>
+      <div class="role-card">
+        <span class="tag">Inventori</span>
+        <h3>Gudang</h3>
+        <ul><li>Stock dashboard & master barang</li><li>Penerimaan & pengeluaran</li><li>Transfer & stock count</li><li>Batch, kedaluwarsa & PR</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tampilan">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">TAMPILAN</span>
+      <h2>Sekilas antarmuka UPterindo</h2>
+      <p>Cuplikan langsung dari aplikasi yang berjalan — bukan mockup.</p>
+    </div>
+    <div class="showcase-grid">
+      <div class="showcase-item"><div class="imgwrap"><img src="assets/screenshots/shot-worker-phone.png" alt="Tampilan mobile pekerja lapangan"></div><div class="cap"><b>Pekerja Lapangan</b><span>Tampilan mobile — tugas & lapor masalah</span></div></div>
+      <div class="showcase-item"><div class="imgwrap"><img src="assets/screenshots/shot-supervisor-dashboard.png" alt="Rencana Kerja Harian Supervisor"></div><div class="cap"><b>Rencana Kerja Harian</b><span>Panel Supervisor</span></div></div>
+      <div class="showcase-item"><div class="imgwrap"><img src="assets/screenshots/shot-treatment-planner.png" alt="Database produk dan kompatibilitas"></div><div class="cap"><b>Database Produk</b><span>Bahan aktif & kompatibilitas campuran</span></div></div>
+      <div class="showcase-item"><div class="imgwrap"><img src="assets/screenshots/shot-warehouse-dashboard.png" alt="Stock dashboard gudang"></div><div class="cap"><b>Stock Dashboard</b><span>Panel Gudang</span></div></div>
+      <div class="showcase-item"><div class="imgwrap"><img src="assets/screenshots/shot-green-report.png" alt="Laporan Hijau sustainability"></div><div class="cap"><b>Laporan Hijau</b><span>Indikator keberlanjutan budidaya</span></div></div>
+      <div class="showcase-item"><div class="imgwrap"><img src="assets/screenshots/shot-login.png" alt="Halaman login UPterindo"></div><div class="cap"><b>Masuk / Daftar</b><span>Login akun & pendaftaran profesional</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="modul">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">CAKUPAN MODUL</span>
+      <h2>17 modul fungsional</h2>
+      <p>Mengikuti blueprint operasional budidaya end-to-end.</p>
+    </div>
+    <div class="modules-strip">
+      <span class="mod-chip">Perencanaan Tanam</span>
+      <span class="mod-chip">Manajemen Tugas</span>
+      <span class="mod-chip">Scouting & OPT</span>
+      <span class="mod-chip">Treatment Planner</span>
+      <span class="mod-chip">SOP Library</span>
+      <span class="mod-chip">Database Produk</span>
+      <span class="mod-chip">Kompatibilitas Campuran</span>
+      <span class="mod-chip">Peta Lahan</span>
+      <span class="mod-chip">Kehadiran Tim</span>
+      <span class="mod-chip">Approval Workflow</span>
+      <span class="mod-chip">Rencana Kerja Harian</span>
+      <span class="mod-chip">Rencana Kerja Bulanan</span>
+      <span class="mod-chip">Laporan Harian (PDF)</span>
+      <span class="mod-chip">Laporan Bulanan (PDF)</span>
+      <span class="mod-chip">Laporan Hijau</span>
+      <span class="mod-chip">Manajemen Gudang</span>
+      <span class="mod-chip">Analisis Foto AI</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cta-band">
+    <h2>Siap mencoba UPterindo?</h2>
+    <p>Jelajahi prototipe interaktif lengkap dengan akun demo untuk tiap peran — tidak perlu instalasi.</p>
+    <div class="cta-row" style="justify-content:center;">
+      <a href="app.html" class="btn btn-primary">Buka Aplikasi →</a>
+      <a href="https://github.com/" target="_blank" rel="noopener" class="btn btn-ghost">Lihat Kode di GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fbrand"><img src="assets/terindo-icon-transparent.png" alt="Terindo"> UPterindo</div>
+    <div class="fmeta">Didukung oleh <b>Terindo Group</b> — PT Tetra Jaya Plusindo</div>
+    <div class="flinks">
+      <a href="app.html">Aplikasi</a>
+      <a href="#fitur">Fitur</a>
+      <a href="#peran">Peran</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
