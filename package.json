@@ -1,0 +1,25 @@
+{
+  "name": "upterindo",
+  "version": "1.0.0",
+  "description": "UPterindo — platform manajemen budidaya pertanian oleh Terindo Group (prototipe web app).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "keywords": [
+    "agriculture",
+    "budidaya",
+    "farm-management",
+    "terindo"
+  ],
+  "author": "Terindo Group (PT Tetra Jaya Plusindo)",
+  "license": "UNLICENSED",
+  "private": true
+}
