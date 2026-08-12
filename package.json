@@ -1,7 +1,7 @@
 {
   "name": "upterindo",
-  "version": "1.0.0",
-  "description": "UPterindo — platform manajemen budidaya pertanian oleh Terindo Group (prototipe web app).",
+  "version": "2.0.0",
+  "description": "UPterindo — platform manajemen budidaya pertanian oleh Terindo Group (backend Express + penyimpanan data JSON).",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,7 +11,10 @@
     "node": ">=18"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "session-file-store": "^1.5.0",
+    "bcryptjs": "^2.4.3"
   },
   "keywords": [
     "agriculture",
